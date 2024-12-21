@@ -1,9 +1,7 @@
 package com.socks.backend;
 
 import com.socks.backend.dto.SocksDto;
-import com.socks.backend.dto.SocksFilter;
 import com.socks.backend.entity.Socks;
-import com.socks.backend.enums.SocksSortField;
 import com.socks.backend.exception.ApplicationException;
 import com.socks.backend.mapper.SocksMapper;
 import com.socks.backend.repository.SocksRepository;
@@ -13,12 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -154,9 +148,10 @@ public class SocksServiceTest {
         when(socksRepository.findByColorAndCottonPercent("Red", 80.0))
                 .thenReturn(Optional.empty());
 
-        ApplicationException applicationException = assertThrows(ApplicationException.class, () -> {
-            socksService.reduceSocksCount(socksDto);
-        });
+        ApplicationException applicationException = assertThrows(
+                ApplicationException.class,
+                () -> socksService.reduceSocksCount(socksDto)
+        );
 
         assertEquals(HttpStatus.NOT_FOUND, applicationException.getStatus());
 
